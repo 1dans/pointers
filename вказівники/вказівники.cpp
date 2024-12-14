@@ -1,29 +1,41 @@
 ﻿#include <iostream>
+#include<algorithm>
 using namespace std;
+
+void fill(int* ptr, int size) {
+	for (int i = 0; i < size; ++i) {
+		*(ptr + i) = rand() % 11;
+	}
+}
 
 void show(int* ptr, int size) {
 	for (int i = 0; i < size; ++i) {
 		cout << *(ptr + i) << ' ';
 	}
+	cout << endl;
 }
 
-int summ(int* ptr, int size) {
-	int s=0;
+void replace(int* ptr, int size) {
 	for (int i = 0; i < size; ++i) {
-		s += *(ptr + i);
+		if (i % 2 == 0) swap(*(ptr + i), *((ptr + i) + 1));
 	}
-	return s;
 }
+//int summ(int* ptr, int size) {
+//	int s=0;
+//	for (int i = 0; i < size; ++i) {
+//		s += *(ptr + i);
+//	}
+//	return s;
+//}
+//
+//char sign(int num) {
+//	int* ptr = &num;
+//	if (*ptr > 0) return '+';
+//	else if (*ptr < 0) return '-';
+//	else return '0';
+//}
 
-char sign(int num) {
-	int* ptr = &num;
-	if (*ptr > 0) return '+';
-	else if (*ptr < 0) return '-';
-	else return '0';
-}
-
-int main()
-{
+int main() {
 	system("chcp 1251>null");
 	cout << "вказівники" << endl;
 	//int a = 3, b = 5;
@@ -49,8 +61,15 @@ int main()
 	/*int* p1 = &ar[0], * p2 = &ar[1];
 	cout << p1<<' '<< p2 << endl;
 	cout << p1 - p2 << endl;*/
-	int num;
+	/*int num;
 	cout << "Введіть число: ";
 	cin >> num;
-	cout << sign(num);
+	cout << sign(num);*/
+	const int size = 10;
+	int ar[size];
+	int* p = ar;
+	fill(p, size);
+	show(p, size);
+	replace(p, size);
+	show(p, size);
 }
