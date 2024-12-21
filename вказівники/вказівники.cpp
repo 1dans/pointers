@@ -8,13 +8,49 @@ using namespace std;
 //		*(ptr + i) = rand() % 11;
 //	}
 //}
+
+//void fill_2d(int** ptr, int row, int col) {
+//	for (int i = 0; i < row; i++) {
+//		ptr[i] = new int[col];
+//		for (int j = 0; j < col; j++) {
+//			ptr[i][j] = -10 + rand() % 41;
+//		}
+//	}
+//}
 //
-void show(int* ptr, int size) {
-	for (int i = 0; i < size; ++i) {
-		cout << *(ptr + i) << ' ';
-	}
-	cout << endl;
-}
+//void print_2d(int** ptr, int row, int col) {
+//	for (int i = 0; i < row; i++) {
+//		for (int j = 0; j < col; j++) {
+//			cout << ptr[i][j] << " ";
+//		}
+//		cout << endl;
+//	}
+//}
+//
+//int check_null(int** ptr, int row, int col) {
+//	int count=0;
+//	for (int i = 0; i < row; i++) {
+//		for (int j = 0; j < col; j++) {
+//			if (ptr[i][j] == 0) { count++; break; }
+//		}
+//	}
+//	return count;
+//}
+//
+//void delete_2d(int** ptr, int row) {
+//	for (int i = 0; i < row; i++) {
+//		delete[] ptr[i];
+//	}
+//	delete[] ptr;
+//}
+//void show(int* ptr, int size) {
+//	for (int i = 0; i < size; ++i) {
+//		cout << *(ptr + i) << ' ';
+//	}
+//	cout << endl;
+//}
+
+
 //
 //void replace(int* ptr, int size) {
 //	for (int i = 0; i < size; i+=2) {
@@ -119,6 +155,143 @@ int main() {
 	//cout << p << endl;
 	//p = &y;
 	//cout << p << endl;
-	int* const p = nullptr; // констатний вказівник
+	/*int* const p = nullptr;*/ // констатний вказівник
+	//int row, col;
+	//cout << "Введіть кількість рядків та стовпці: ";
+	//cin >> row >> col;
+	//int** pArr = new int* [row];
+	//fill_2d(pArr, row, col);
+	//print_2d(pArr, row, col);
+	//int* p = new int [row];
+	//for (int i = 0; i < row; ++i) {
+	//	bool check = check_nulls(pArr, i, col);
+	//	if (check == true) p[i] = i;
+	//	cout << p[i];
+	//}
+	//delete_2d(pArr, row);
+	//delete[] p;
+}
+void fullArray(int rows, int columns, int** arr);
 
+void outputArray(int rows, int columns, int** arr);
+
+int arrayConvertion(int rows, int columns, int** arr);
+
+void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray);
+
+int main()
+{
+	system("chcp 1251>null");
+	srand(time(0));
+
+	int row, col;
+
+	cout << "Input rows: ";
+	cin >> row;
+
+	cout << endl;
+	cout << "Input columns: ";
+	cin >> col;
+
+
+	int** pArr = new int* [row];
+
+	fullArray(row, col, pArr);
+
+	cout << endl;
+
+	cout << "\033[033mВиведення масиву: \033[0m" << endl;
+
+	outputArray(row, col, pArr);
+	int result = row - arrayConvertion(row, col, pArr);
+
+	cout << endl << "Кількість рядків без нулів: " << result << endl;
+
+	arrayWithoutNulls(row, result, col, pArr);
+
+
+	for (int i = 0; i < row; i++) {
+		delete[] pArr[i];
+	}
+	delete[] pArr;
+
+	return 0;
+}
+
+void fullArray(int rows, int columns, int** arr)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		arr[i] = new int[columns];
+		for (int j = 0; j < columns; j++)
+		{
+			arr[i][j] = -5 + rand() % 11;
+
+		}
+	}
+}
+
+void outputArray(int rows, int columns, int** arr)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			cout << setw(4) << arr[i][j];
+
+		}
+		cout << endl;
+	}
+}
+
+int arrayConvertion(int rows, int columns, int** arr)
+{
+	int count = 0;
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			if (arr[i][j] == 0)
+			{
+				count++;
+				break;
+			}
+		}
+	}
+
+	return count;
+}
+
+void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray)
+{
+	int** newArray = new int* [rowsNew];
+
+	int index = 0;
+
+	for (int i = 0; i < rowsOld; i++)
+	{
+		int zero = 0;
+		for (int j = 0; j < columns; j++)
+		{
+			if (oldArray[i][j] == 0)
+			{
+				zero = 1;
+				break;
+			}
+
+		}
+		if (zero == 0)
+		{
+			newArray[index] = new int[columns];
+			for (int n = 0; n < columns; n++)
+			{
+				newArray[index][n] = oldArray[i][n];
+			}
+			index++;
+		}
+	}
+
+	cout << endl << "Масив без нуликів: " << endl;
+	outputArray(rowsNew, columns, newArray);
 }
