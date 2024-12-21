@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include<algorithm>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 //void fill(int* ptr, int size) {
@@ -37,12 +38,12 @@ using namespace std;
 //	return count;
 //}
 //
-//void delete_2d(int** ptr, int row) {
-//	for (int i = 0; i < row; i++) {
-//		delete[] ptr[i];
-//	}
-//	delete[] ptr;
-//}
+void delete_2d(int** ptr, int row) {
+	for (int i = 0; i < row; i++) {
+		delete[] ptr[i];
+	}
+	delete[] ptr;
+}
 //void show(int* ptr, int size) {
 //	for (int i = 0; i < size; ++i) {
 //		cout << *(ptr + i) << ' ';
@@ -93,10 +94,10 @@ using namespace std;
 //	show(ptr, size);
 //}
 
-int main() {
-	srand(time(nullptr));
-	system("chcp 1251>null");
-	cout << "вказівники" << endl;
+//int main() {
+//	srand(time(nullptr));
+//	system("chcp 1251>null");
+//	cout << "вказівники" << endl;
 	//int a = 3, b = 5;
 	//cout << &a << ' ' << &b << endl; // & - адреса 16-зн
 
@@ -170,54 +171,7 @@ int main() {
 	//}
 	//delete_2d(pArr, row);
 	//delete[] p;
-}
-void fullArray(int rows, int columns, int** arr);
-
-void outputArray(int rows, int columns, int** arr);
-
-int arrayConvertion(int rows, int columns, int** arr);
-
-void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray);
-
-int main()
-{
-	system("chcp 1251>null");
-	srand(time(0));
-
-	int row, col;
-
-	cout << "Input rows: ";
-	cin >> row;
-
-	cout << endl;
-	cout << "Input columns: ";
-	cin >> col;
-
-
-	int** pArr = new int* [row];
-
-	fullArray(row, col, pArr);
-
-	cout << endl;
-
-	cout << "\033[033mВиведення масиву: \033[0m" << endl;
-
-	outputArray(row, col, pArr);
-	int result = row - arrayConvertion(row, col, pArr);
-
-	cout << endl << "Кількість рядків без нулів: " << result << endl;
-
-	arrayWithoutNulls(row, result, col, pArr);
-
-
-	for (int i = 0; i < row; i++) {
-		delete[] pArr[i];
-	}
-	delete[] pArr;
-
-	return 0;
-}
-
+//}
 void fullArray(int rows, int columns, int** arr)
 {
 	for (int i = 0; i < rows; i++)
@@ -233,6 +187,7 @@ void fullArray(int rows, int columns, int** arr)
 
 void outputArray(int rows, int columns, int** arr)
 {
+	cout << "\033[033mВиведення масиву: \033[0m" << endl;
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < columns; j++)
@@ -243,55 +198,102 @@ void outputArray(int rows, int columns, int** arr)
 		cout << endl;
 	}
 }
+//int arrayConvertion(int rows, int columns, int** arr);
+//
+//void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray);
 
-int arrayConvertion(int rows, int columns, int** arr)
-{
-	int count = 0;
-
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < columns; j++)
+void transport_matrix(int row, int col, int** arr) {
+	int** revArr = new int* [col];
+	for (int j = 0; j < col; ++j) {
+		revArr[j] = new int[row];
+		for (int i = 0; i < row; ++i)
 		{
-			if (arr[i][j] == 0)
-			{
-				count++;
-				break;
-			}
+			revArr[j][i] = arr[i][j];
+			//cout << arr[i][j] << ' ';
 		}
+		cout << endl;
 	}
-
-	return count;
+	outputArray(row, col, revArr);
+	delete_2d(revArr, row);
 }
 
-void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray)
+int main()
 {
-	int** newArray = new int* [rowsNew];
+	system("chcp 1251>null");
+	srand(time(0));
+	int row, col;
+	cout << "Input rows: ";
+	cin >> row;
+	cout << endl;
+	cout << "Input columns: ";
+	cin >> col;
 
-	int index = 0;
+	int** pArr = new int* [row];
+	fullArray(row, col, pArr);
+	outputArray(row, col, pArr);
+	transport_matrix(row, col, pArr);
+	
+	/*int result = row - arrayConvertion(row, col, pArr);
+	cout << endl << "Кількість рядків без нулів: " << result << endl;*/
+	/*arrayWithoutNulls(row, result, col, pArr);*/
+	delete_2d(pArr, row);
 
-	for (int i = 0; i < rowsOld; i++)
-	{
-		int zero = 0;
-		for (int j = 0; j < columns; j++)
-		{
-			if (oldArray[i][j] == 0)
-			{
-				zero = 1;
-				break;
-			}
-
-		}
-		if (zero == 0)
-		{
-			newArray[index] = new int[columns];
-			for (int n = 0; n < columns; n++)
-			{
-				newArray[index][n] = oldArray[i][n];
-			}
-			index++;
-		}
-	}
-
-	cout << endl << "Масив без нуликів: " << endl;
-	outputArray(rowsNew, columns, newArray);
+	return 0;
 }
+
+
+
+
+
+
+//int arrayConvertion(int rows, int columns, int** arr)
+//{
+//	int count = 0;
+//
+//	for (int i = 0; i < rows; i++)
+//	{
+//		for (int j = 0; j < columns; j++)
+//		{
+//			if (arr[i][j] == 0)
+//			{
+//				count++;
+//				break;
+//			}
+//		}
+//	}
+//
+//	return count;
+//}
+//
+//void arrayWithoutNulls(int rowsOld, int rowsNew, int columns, int** oldArray)
+//{
+//	int** newArray = new int* [rowsNew];
+//
+//	int index = 0;
+//
+//	for (int i = 0; i < rowsOld; i++)
+//	{
+//		int zero = 0;
+//		for (int j = 0; j < columns; j++)
+//		{
+//			if (oldArray[i][j] == 0)
+//			{
+//				zero = 1;
+//				break;
+//			}
+//
+//		}
+//		if (zero == 0)
+//		{
+//			newArray[index] = new int[columns];
+//			for (int n = 0; n < columns; n++)
+//			{
+//				newArray[index][n] = oldArray[i][n];
+//			}
+//			index++;
+//		}
+//	}
+//
+//	cout << endl << "Масив без нуликів: " << endl;
+//	outputArray(rowsNew, columns, newArray);
+//}
